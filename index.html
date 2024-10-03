@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acid Ocean [Test ver]</title>
+    <style id="cssRoot">
+    </style>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+    </style>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="iconfont.css">
+</head>
+<body>
+    <div class="ribbon">
+        <div class="tempvol">
+            <label for="tempo">Tempo</label>
+            <input type="number" name="tempo" id="tempo" value="135">
+
+            <label for="volume">Master Volume</label>
+            <input type="range" name="volume" id="master">
+        </div>
+
+        <!-- INSERT STEREO VIS HERE -->
+
+        <button id="playBack"><i class="i fluent:play-24-filled"></i><!--<i class="i fluent:pause-24-filled"></i>--></button>
+        <button id="export">export</button>
+
+        <label for="color">Colour</label>
+        <input type="color" name="color" id="color">
+        <button>Select</button>
+        <button onclick="isPaint = !isPaint">Paint</button>
+    </div>
+    <div class="timeline">
+        <div class="timeline-bars">
+            <div class="mark">| 0</div>
+            <div class="mark">| 1</div>
+            <div class="mark">| 2</div>
+            <div class="mark">| 3</div>
+            <div class="mark">| 4</div>
+            <div class="mark">| 5</div>
+            <div class="mark">| 6</div>
+            <div class="mark">| 7</div>
+            <div class="mark">| 8</div>
+            <div class="mark">| 9</div>
+            <div class="mark">| 10</div>
+            <div class="mark">| 11</div>
+            <div class="mark">| 12</div>
+            <div class="mark">| 13</div>
+            <div class="mark">| 14</div>
+            <div class="mark">| 15</div>
+            <div class="mark">| 16</div>
+        </div>
+        <div class="track">
+            <div class="track-controls">
+                <h2>Track name</h2>
+                <!--<label for="volume">Volume</label>
+                <input type="range" name="volume" id="">-->
+
+                <!-- INSERT STEREO VIS HERE -->
+            </div>
+            <div class="track-view">
+                <div class="colours"></div>
+            </div>
+        </div>
+    </div>
+    <div class="midi-editor">
+        <div class="controls">
+            <button id="draw" class="pressed"><i class="i fluent:edit-24-filled"></i></button>
+            <button id="drawAccent"><i class="i fluent:edit-24-filled"></i></button>
+            <button id="portemento">Portemento</button>
+            <button id="zoomIn"><i class="i fluent:zoom-in-24-filled"></i></button>
+            <button id="zoomOut"><i class="i fluent:zoom-out-24-filled"></i></button>
+        </div>
+        <div class="editor cmajor"></div>
+    </div>
+    <audio src=""></audio>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/pitches.js"></script>
+    <script src="js/acidlib.js"></script>
+    <script src="js/acidDOM.js"></script>
+    <script src="js/main.js"></script>
+    <!--<i class="i fluent:cursor-24-filled"></i>
+    <i class="i fluent:paint-brush-24-filled"></i>-->
+</body>
+</html>
