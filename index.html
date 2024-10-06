@@ -14,23 +14,25 @@
 </head>
 <body>
     <div class="ribbon">
-        <div class="tempvol">
+        <div class="ribbon-box tempvol">
             <label for="tempo">Tempo</label>
             <input type="number" name="tempo" id="tempo" value="135">
 
             <label for="volume">Master Volume</label>
             <input type="range" name="volume" id="master">
+
+            <!-- INSERT STEREO VIS HERE -->
         </div>
 
-        <!-- INSERT STEREO VIS HERE -->
+        <div class="ribbon-box">
+            <button id="playBack"><i class="i fluent:play-24-filled"></i><!--<i class="i fluent:pause-24-filled"></i>--></button>
+            <button id="export">export</button>
 
-        <button id="playBack"><i class="i fluent:play-24-filled"></i><!--<i class="i fluent:pause-24-filled"></i>--></button>
-        <button id="export">export</button>
-
-        <label for="color">Colour</label>
-        <input type="color" name="color" id="color">
-        <!--<button>Select</button>
-        <button onclick="isPaint = !isPaint">Paint</button>-->
+            <label for="color">Colour</label>
+            <input type="color" name="color" id="color">
+            <!--<button>Select</button>
+            <button onclick="isPaint = !isPaint">Paint</button>-->
+        </div>
     </div>
     <div class="timeline">
         <div class="timeline-bars">

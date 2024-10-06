@@ -30,14 +30,18 @@ body {
     display: flex;
 }
 
-.tempvol {
+.ribbon-box {
     background: #e7e7e7;
-    display: flex;
-    flex-direction: column;
     width: 100%;
-    max-width: 200px;
     padding: 15px;
     border-radius: var(--border-radius);
+    margin-right: 15px;
+}
+
+.tempvol {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
 }
 
 /* timeline */
@@ -129,6 +133,156 @@ body {
 }
 .portemento {
     border: 3px solid lightseagreen;
+}
+
+/* NOTES */
+
+.bar-0 {
+    margin-left: 35px;
+}
+
+.column .B4:hover::before {
+    content: 'B4';
+}
+
+.column .Bb4:hover::before {
+    content: 'Bb4';
+}
+
+.column .A4:hover::before {
+    content: 'A4';
+}
+
+.column .Ab4:hover::before {
+    content: 'Ab4';
+}
+
+.column .G4:hover::before {
+    content: 'G4';
+}
+
+.column .Gb4:hover::before {
+    content: 'Gb4';
+}
+
+.column .F4:hover::before {
+    content: 'F4';
+}
+
+.column .E4:hover::before {
+    content: 'E4';
+}
+
+.column .Eb4:hover::before {
+    content: 'Eb4';
+}
+
+.column .D4:hover::before {
+    content: 'D4';
+}
+
+.column .Db4:hover::before {
+    content: 'Db4';
+}
+
+.column .C4:hover::before {
+    content: 'C4';
+}
+
+.column .B3:hover::before {
+    content: 'B3';
+}
+
+.column .Bb3:hover::before {
+    content: 'Bb3';
+}
+
+.column .A3:hover::before {
+    content: 'A3';
+}
+
+.column .Ab3:hover::before {
+    content: 'Ab3';
+}
+
+.column .active {
+    color: #fff;
+}
+
+.column-0 .active {
+    color: #000;
+}
+
+.column-0 .note::before {
+    position: relative;
+    left: -42px;
+    text-align: right;
+    display: block;
+    width: 35px;
+}
+
+.column-0 .B4::before {
+    content: 'B4';
+}
+/*
+.column-0 .Bb4::before {
+    content: 'Bb4';
+}
+*/
+.column-0 .A4::before {
+    content: 'A4';
+}
+/*
+.column-0 .Ab4::before {
+    content: 'Ab4';
+}
+*/
+.column-0 .G4::before {
+    content: 'G4';
+}
+/*
+.column-0 .Gb4::before {
+    content: 'Gb4';
+}
+*/
+.column-0 .F4::before {
+    content: 'F4';
+}
+
+.column-0 .E4::before {
+    content: 'E4';
+}
+/*
+.column-0 .Eb4::before {
+    content: 'Eb4';
+}
+*/
+.column-0 .D4::before {
+    content: 'D4';
+}
+/*
+.column-0 .Db4::before {
+    content: 'Db4';
+}
+*/
+.column-0 .C4::before {
+    content: 'C4';
+}
+
+.column-0 .B3::before {
+    content: 'B3';
+}
+/*
+.column-0 .Bb3::before {
+    content: 'Bb3';
+}
+*/
+.column-0 .A3::before {
+    content: 'A3';
+}
+
+.column-0 .Ab3::before {
+    content: 'Ab3';
 }
 
 /* CONTROLS */

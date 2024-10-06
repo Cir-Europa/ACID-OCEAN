@@ -2,6 +2,10 @@
 
 ## TODO
 
+- the playback timing is out of sync
+    - the issue is with startTime
+- play/ pause
+
 - fix zoom
 - Add multiple tracks
 - URL & LocalStorage 

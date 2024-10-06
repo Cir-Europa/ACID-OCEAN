@@ -88,30 +88,48 @@ class Track {
         }
         this.displayColour();
     }
- 
 
     playBack() {
-        let currentTime = ctx.currentTime; // Start time tracking for real-time or export context
+        if (isExport) {
+            ctx = new OfflineAudioContext(2, sampleRate * 40, sampleRate);
+            this.startPlayback();
+        } else {
+            if (ctx.state === 'suspended') {
+                ctx.resume().then(() => {
+                    this.startPlayback();
+                });
+            } else {
+                this.startPlayback();
+            }
+        }
+    }       
     
-        const playColumn = (index) => {
+    startPlayback() {
+        let startTime = ctx.currentTime;
+    
+        const playColumn = (index, columnStartTime) => {
             if (index >= this.data.length) {
-                if (isExport) {renderAndExport()}
+                if (isExport) {
+                    renderAndExport();
+                }
                 return;
             }
     
             let columnTimeMs = noteLengthMs;
             let progressionCount = 1;
-    
             const column = this.data[index];
     
-            // Handle Portamento: Find the total duration of the current note if portamento exists
+            // Handle portamento (legato) across multiple notes
             for (let i = index + 1; i < this.data.length; i++) {
                 const currentNote = this.data[i];
                 const previousNote = this.data[i - 1];
+    
+                // Break if portamento is followed by different accent or an empty note
                 if (currentNote.note === previousNote.note && previousNote.isPortemento) {
                     if (currentNote.isAccent !== previousNote.isAccent) {
                         break;
                     }
+    
                     columnTimeMs += noteLengthMs;
                     progressionCount++;
                 } else {
@@ -119,33 +137,25 @@ class Track {
                 }
             }
     
-            let columnTimeS = columnTimeMs / 1000;
+            let columnTimeS = columnTimeMs / 1000; // Convert to seconds
     
-            // Schedule the note in the future based on the accumulated `currentTime`
+            // Play the note at the correct time, using AudioContext's time
             if (column.note !== '') {
                 if (column.isPortemento && this.data[index + 1]) {
-                    play(column.note, column.isAccent, columnTimeS, this.data[index + 1].note, 0.2, currentTime);
+                    play(column.note, column.isAccent, columnTimeS, this.data[index + 1].note, 0.2, columnStartTime);
                 } else {
-                    play(column.note, column.isAccent, columnTimeS, undefined, 0, currentTime);
+                    play(column.note, column.isAccent, columnTimeS, null, 0, columnStartTime);
                 }
             }
     
-            // Move the playhead forward by the duration of this note
-            currentTime += columnTimeS; // Advance the current time for the next note
-    
-            // Call playColumn() recursively, but only use setTimeout if it's a real-time play
-            if (!isExport) {
-                setTimeout(() => {
-                    playColumn(index + progressionCount);
-                }, columnTimeMs);
-            } else {
-                // For export, just call the next note immediately
-                playColumn(index + progressionCount);
-            }
+            // Schedule the next note based on the AudioContext's time
+            let nextStartTime = columnStartTime + columnTimeS;
+            playColumn(index + progressionCount, nextStartTime); // Schedule next column to play
         };
     
-        playColumn(0);
-    }     
+        // Start playing the first column
+        playColumn(0, startTime);
+    }    
 }
 
 function bufferToWave(abuffer, len) {
@@ -206,49 +216,49 @@ const masterVolume = ctx.createGain();
 masterVolume.gain.value = 0.5;
 masterVolume.connect(ctx.destination);
 
-function play(noteValue, noteAccent, noteDuration, nextNoteValue, portamentoDuration = 0, startTime = 0) {
+function play(noteValue, noteAccent, noteDuration, nextNoteValue, portamentoDuration = 0, startTime) {
     const oscillator = ctx.createOscillator();
     const envelope = ctx.createGain();
     const filter = ctx.createBiquadFilter();
-    
+
     oscillator.connect(envelope);
     envelope.connect(filter);
-    isExport ? filter.connect(ctx.destination) : filter.connect(masterVolume);
+    filter.connect(isExport ? ctx.destination : masterVolume); // Use masterVolume unless exporting
 
     oscillator.type = 'sawtooth';
     const frequency = parseFloat(getFrequency(noteValue));
-    oscillator.frequency.value = frequency;
+    oscillator.frequency.setValueAtTime(frequency, startTime);
 
     const attackTime = 0.1;
     const decayTime = 0.3;
     const sustainLevel = 0.5;
     const releaseTime = 0.1;
 
-    const now = startTime || ctx.currentTime;
-
     filter.Q.value = noteAccent ? 10 : 0.1;
 
-    filter.frequency.setValueAtTime(0, now);
-    envelope.gain.setValueAtTime(0, now);
+    // Envelope and filter frequency settings based on startTime
+    filter.frequency.setValueAtTime(0, startTime);
+    envelope.gain.setValueAtTime(0, startTime);
 
-    filter.frequency.linearRampToValueAtTime(2000, now + attackTime);
-    envelope.gain.linearRampToValueAtTime(1, now + attackTime);
+    filter.frequency.linearRampToValueAtTime(2000, startTime + attackTime);
+    envelope.gain.linearRampToValueAtTime(1, startTime + attackTime);
 
     if (portamentoDuration > 0 && nextNoteValue) {
         const nextFrequency = parseFloat(getFrequency(nextNoteValue));
-        oscillator.frequency.setValueAtTime(frequency, now);
-        oscillator.frequency.linearRampToValueAtTime(nextFrequency, now + portamentoDuration);
+        oscillator.frequency.setValueAtTime(frequency, startTime);
+        oscillator.frequency.linearRampToValueAtTime(nextFrequency, startTime + portamentoDuration);
     }
 
-    filter.frequency.linearRampToValueAtTime(200, now + attackTime + decayTime);
-    envelope.gain.linearRampToValueAtTime(sustainLevel, now + attackTime + decayTime);
+    filter.frequency.linearRampToValueAtTime(200, startTime + attackTime + decayTime);
+    envelope.gain.linearRampToValueAtTime(sustainLevel, startTime + attackTime + decayTime);
 
-    oscillator.start(now);
-    oscillator.stop(now + noteDuration + releaseTime);
+    // Schedule the stop event at the correct time
+    oscillator.start(startTime);
+    oscillator.stop(startTime + noteDuration + releaseTime);
 
-    envelope.gain.setValueAtTime(sustainLevel, now + noteDuration);
-    filter.frequency.setValueAtTime(200, now + noteDuration);
-    envelope.gain.linearRampToValueAtTime(0, now + noteDuration + releaseTime);
+    envelope.gain.setValueAtTime(sustainLevel, startTime + noteDuration);
+    filter.frequency.setValueAtTime(200, startTime + noteDuration);
+    envelope.gain.linearRampToValueAtTime(0, startTime + noteDuration + releaseTime);
 
     oscillator.onended = () => {
         oscillator.disconnect();
@@ -272,5 +282,7 @@ function renderAndExport() {
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+
+        ctx = new AudioContext()
     });
 }
