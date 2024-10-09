@@ -216,7 +216,7 @@ const masterVolume = ctx.createGain();
 masterVolume.gain.value = 0.5;
 masterVolume.connect(ctx.destination);
 
-function play(noteValue, noteAccent, noteDuration, nextNoteValue, portamentoDuration = 0, startTime) {
+function play(noteValue, noteAccent, noteDuration, nextNoteValue, portamentoDuration = 0, startTime = ctx.currentTime) {
     const oscillator = ctx.createOscillator();
     const envelope = ctx.createGain();
     const filter = ctx.createBiquadFilter();

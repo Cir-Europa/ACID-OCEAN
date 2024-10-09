@@ -8,7 +8,6 @@ function initBPM(value) {
 let bpm = 135
 let noteLengthMs = (60000 / bpm) / 4
 let noteLengthS = ((60000 / bpm) / 4) / 1000
-const bars = 8
 const barWidth = 300
 const tracks = [new Track]
 const scale = ["Ab3", "A3", "Bb3","B3","C4","Db4","D4","Eb4","E4","F4","Gb4","G4","Ab4","A4","Bb4","B4"].reverse();
@@ -16,7 +15,9 @@ const scale = ["Ab3", "A3", "Bb3","B3","C4","Db4","D4","Eb4","E4","F4","Gb4","G4
 // CURSOR
 let isAccent = false;
 let isPortemento = false;
-let isPaint = false;
+let isPaint = true;
+let isEyeDropper = false;
+
 let paintColour = "e6155b"
 let trackSelection = 0
 
@@ -42,6 +43,20 @@ $(document).ready(function() {
 $('#color').change(function(e) {
     paintColour = e.target.value.substring(1)
     drawCSS()
+})
+
+$('.colours').click(function(e) {
+    if (isEyeDropper) {
+        console.log(e.target)
+        isEyeDropper = false
+        $('.colours').removeClass('drop')
+    }
+})
+
+$('#eyeDropper').click(function() {
+    isEyeDropper = !isEyeDropper
+    isEyeDropper ? $('.colours').addClass('drop') : $('.colours').removeClass('drop')
+    console.log(isEyeDropper)
 })
 
 function drawToggle() {
