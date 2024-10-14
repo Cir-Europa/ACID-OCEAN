@@ -78,6 +78,29 @@ function initMidiEditor(track) {
     drawCSS();
 }
 
+function displayMidi() { 
+    let bars = editor.children
+    for (let i=0; i < bars.length; i++) {
+        for (let j=0; j < bars[i].children.length; j++) {
+            let columns = bars[i].children;
+            for (let k=0; k < columns[j].children.length; k++) {
+                editor.children[i].children[j].children[k].classList.remove('active', 'accent', 'portemento')
+                editor.children[i].children[j].children[k].classList.remove('accent')
+            }
+            if (tracks[trackSelection].data[i * 4 + j].note !== "") {
+                if (!tracks[trackSelection].data[i * 4 + j].isAccent) {
+                    columns[j].querySelector('.' + tracks[trackSelection].data[i * 4 + j].note).classList.add('active')
+                } else {
+                    columns[j].querySelector('.' + tracks[trackSelection].data[i * 4 + j].note).classList.add('accent')
+                }
+                if (tracks[trackSelection].data[i * 4 + j].isPortemento) {
+                    columns[j].querySelector('.' + tracks[trackSelection].data[i * 4 + j].note).classList.add('portemento')
+                }
+            }
+        }
+    }
+}
+
 function addClickEvent() {
     document.body.addEventListener('click', (e) => {
         if (e.target.classList.contains('note')) {
@@ -104,28 +127,20 @@ function addClickEvent() {
             displayMidi()
             tracks[trackSelection].getColoursFromData()
         }
-    }
-)}
-
-function displayMidi() { 
-    let bars = editor.children
-    for (let i=0; i < bars.length; i++) {
-        for (let j=0; j < bars[i].children.length; j++) {
-            let columns = bars[i].children;
-            for (let k=0; k < columns[j].children.length; k++) {
-                editor.children[i].children[j].children[k].classList.remove('active', 'accent', 'portemento')
-                editor.children[i].children[j].children[k].classList.remove('accent')
-            }
-            if (tracks[trackSelection].data[i * 4 + j].note !== "") {
-                if (!tracks[trackSelection].data[i * 4 + j].isAccent) {
-                    columns[j].querySelector('.' + tracks[trackSelection].data[i * 4 + j].note).classList.add('active')
-                } else {
-                    columns[j].querySelector('.' + tracks[trackSelection].data[i * 4 + j].note).classList.add('accent')
-                }
-                if (tracks[trackSelection].data[i * 4 + j].isPortemento) {
-                    columns[j].querySelector('.' + tracks[trackSelection].data[i * 4 + j].note).classList.add('portemento')
-                }
-            }
+        if (e.target.classList.contains('colour') && isPaint) {
+            let index = Number(e.target.classList[1].match(/\d+/g)[0])
+            tracks[trackSelection].colours[index] = paintColour
+            tracks[trackSelection].displayColour()
+            tracks[trackSelection].getDataFromColour()
+        }
+        if (e.target.classList.contains('colour') && isEyeDropper) {
+            paintColour = e.target.attributes.colour.value;
+            getPaintColour()
+        }
+        if (e.target.id !== "eyeDropper" && isEyeDropper) {
+            isEyeDropper = false
+            isPaint = true
+            $('.colours').removeClass('drop')
         }
     }
-}
+)}

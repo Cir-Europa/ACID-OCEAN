@@ -112,7 +112,7 @@ body {
 .midi-editor {
     position: absolute;
     left: 5px;
-    bottom: 5px;
+    top: 310px;
     width: calc(100% - 10px);
     background: var(--primary);
     padding: 20px;
@@ -161,6 +161,10 @@ body {
 
 .bar-0 {
     margin-left: 35px;
+}
+
+.column .C5:hover::before {
+    content: 'C5';
 }
 
 .column .B4:hover::before {
@@ -241,6 +245,10 @@ body {
     text-align: right;
     display: block;
     width: 35px;
+}
+
+.column-0 .C5::before {
+    content: 'C5';
 }
 
 .column-0 .B4::before {

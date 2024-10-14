@@ -10,9 +10,6 @@
 - Add multiple tracks
 - URL & LocalStorage 
 
-- need a central area for all body click, event listener stufffff
-    - fix isPaint
-
 - try different scale (at least be either 2 gs or 2 cs)
 
 - portemento swish
@@ -26,6 +23,7 @@
 
 - What happens to terminating portementos? and when a portemento normal note follows an accent?
     - the extended note goes from 
+    - terminating portmentos could be vibrato
 - What happens to an extended note, which last note is portemento, and the note after that is a different note?
 - change icon colours to white to contrast accent colour
 
@@ -45,5 +43,8 @@
 - #e6155b
 - #000437
 - #5a028a
+
+- background: rgb(97, 22, 158);
+- background: rgb(60, 244, 6);
 
 - same note but varitions on accent & portttt

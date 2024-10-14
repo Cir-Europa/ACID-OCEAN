@@ -31,30 +31,21 @@ class Track {
         for (let i = 0; i < this.bars; i++) {
             const colourPreview = document.createElement('div')
             colourPreview.className = `colour colour-${i}`
-            colourPreview.style.background = "#000000"
             coloursContainer.appendChild(colourPreview)
         }
 
-        this.addClickEvent()
+        this.displayColour()
     }
     
     displayColour() { 
         for (let i = 0; i < this.bars; i++) {
-            document.querySelector(`.colour-${i}`).style.background = `#${this.colours[i]}`; // JQUERY
+            const element = document.querySelector(`.colour-${i}`);
+
+            element.style.background = `#${this.colours[i]}`;
+            element.setAttribute('colour', `${this.colours[i]}`);
         }
     }
     
-    addClickEvent() {
-        document.body.addEventListener('click', (e) => {
-            if (e.target.classList.contains('colour')) {
-                let index = Number(e.target.classList[1].match(/\d+/g)[0])
-                this.colours[index] = paintColour
-                this.displayColour()
-                this.getDataFromColour()
-            }
-        });
-    }
-
     getDataFromColour() {
         for (let i = 0; i < this.colours.length; i++) {
             let barBinary = hexToBinary(this.colours[i])
