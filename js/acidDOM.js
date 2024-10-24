@@ -99,6 +99,7 @@ function displayMidi() {
             }
         }
     }
+    //updateURL()
 }
 
 function addClickEvent() {
@@ -144,3 +145,32 @@ function addClickEvent() {
         }
     }
 )}
+
+// URL PARAMZ
+/*
+function loadURL() {
+    const params = new URLSearchParams(window.location.search);
+    
+    if (params.has('colours')) {
+        const coloursArray = JSON.parse(decodeURIComponent(params.get('colours')));
+        const dataObject = []
+        for (let i = 0; i < coloursArray.length; i++) {
+            dataObject.push(hextoData(coloursArray[i]))
+        }
+        console.log(dataObject);
+    } else {
+        console.log("No colours parameter found in the URL.");
+    }
+}
+
+function updateURL() {
+    const params = new URLSearchParams();
+    params.set('colours', encodeURIComponent(JSON.stringify(tracks[0].colours)));
+    
+    const newUrl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + params.toString();
+    
+    history.pushState({ path: newUrl }, '', newUrl);
+    
+    console.log(newUrl);
+}
+*/

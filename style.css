@@ -157,6 +157,10 @@ body {
     /*border: 3px solid lightseagreen;*/
 }
 
+.column-0 .portemento::after {
+    top: -23px;
+}
+
 /* NOTES */
 
 .bar-0 {

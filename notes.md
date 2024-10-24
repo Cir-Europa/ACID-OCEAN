@@ -2,22 +2,21 @@
 
 ## TODO
 
-- the playback timing is out of sync
-    - the issue is with startTime
-- play/ pause
-
-- fix zoom
-- Add multiple tracks
+### minimum viable product
+- add accent variation over extended notez
+- fix export volumes
 - URL & LocalStorage 
+- export colours (of some kind)
+- fix zoom
 
-- try different scale (at least be either 2 gs or 2 cs)
 
-- portemento swish
-- accent border
-- accent notes should have the colour of that bar
-- hover btn should show what thing does...
-
-- add extended note portemento
+### if there's time
+- any length tracks
+- clips
+- Add multiple tracks
+- octave & note selection
+- synth params
+- playhead
 
 - if note select and is portemento, turn into that note (does so with accent & active so kinda inconsisitant)
 
@@ -28,6 +27,8 @@
 - change icon colours to white to contrast accent colour
 
 ## PALETTE IDEAS
+
+These are all outdated now
 
 - #0707D1
 
@@ -48,3 +49,7 @@
 - background: rgb(60, 244, 6);
 
 - same note but varitions on accent & portttt
+
+/////////////////////////////////
+
+- #FF33B7
