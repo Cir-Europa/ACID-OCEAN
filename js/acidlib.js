@@ -87,7 +87,9 @@ class Track {
         } else {
             if (ctx.state === 'suspended') {
                 ctx.resume().then(() => {
+                    isPlaying = true
                     this.startPlayback();
+                    setTimeout(stopPlaying, (noteLengthMs * 4 * this.bars) + 200)
                 });
             } else {
                 this.startPlayback();
@@ -99,6 +101,7 @@ class Track {
         let startTime = ctx.currentTime;
     
         const playColumn = (index, columnStartTime) => {
+
             if (index >= this.data.length) {
                 if (isExport) {
                     renderAndExport();
@@ -147,6 +150,15 @@ class Track {
         // Start playing the first column
         playColumn(0, startTime);
     }    
+}
+
+function stopPlaying() {
+    if (isPlaying) {
+        isPlaying = false
+        ctx.close()
+        $('#playBack').html('<i class="i fluent:play-24-filled"></i>')
+        initContext()
+    }
 }
 
 function bufferToWave(abuffer, len) {
@@ -201,13 +213,19 @@ function bufferToWave(abuffer, len) {
 
 const sampleRate = 44100;
 
-let ctx = new AudioContext();
+let ctx = "";
+let masterVolume = "";
 
-const masterVolume = ctx.createGain();
-masterVolume.gain.value = 0.5;
-masterVolume.connect(ctx.destination);
+function initContext() {
+    ctx = new AudioContext();
+
+    masterVolume = ctx.createGain();
+    masterVolume.gain.value = 0.5;
+    masterVolume.connect(ctx.destination);
+}
 
 function play(noteValue, noteAccent, noteDuration, nextNoteValue, portamentoDuration = 0, startTime = ctx.currentTime) {
+
     const oscillator = ctx.createOscillator();
     const envelope = ctx.createGain();
     const filter = ctx.createBiquadFilter();
@@ -274,6 +292,6 @@ function renderAndExport() {
         a.click();
         document.body.removeChild(a);
 
-        ctx = new AudioContext()
+        initContext()
     });
 }

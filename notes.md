@@ -3,6 +3,7 @@
 ## TODO
 
 ### minimum viable product
+- the first column portemento css fix doesn't work for the flats & sharps
 - add accent variation over extended notez
 - fix export volumes
 - URL & LocalStorage 
@@ -17,6 +18,9 @@
 - octave & note selection
 - synth params
 - playhead
+
+### completed
+- play/ pause
 
 - if note select and is portemento, turn into that note (does so with accent & active so kinda inconsisitant)
 
@@ -53,3 +57,8 @@ These are all outdated now
 /////////////////////////////////
 
 - #FF33B7
+
+- rgb(71, 71, 65)
+- rgb(218, 71, 22)
+- rgb(218, 71, 22)
+- rgb(218, 71, 22)
