@@ -123,8 +123,9 @@ function addClickEvent() {
                     data.isAccent = isAccent
                 }
             }
-
-            play(data.note || noteValue, isAccent, noteLengthS) 
+            
+            initContext()
+            play(data.note || noteValue, [isAccent], sixteenthS) 
             displayMidi()
             tracks[trackSelection].getColoursFromData()
         }

@@ -1,16 +1,17 @@
 function initBPM(value) {
     bpm = value
-    noteLengthMs = (60000 / bpm) / 4
-    noteLengthS = ((60000 / bpm) / 4) / 1000
+    sixteenthMs = (60000 / bpm) / 4
+    sixteenthS = ((60000 / bpm) / 4) / 1000
 }
 
 // PROJECT
 let bpm = 135
-let noteLengthMs = (60000 / bpm) / 4
-let noteLengthS = ((60000 / bpm) / 4) / 1000
+let sixteenthMs = (60000 / bpm) / 4
+let sixteenthS = ((60000 / bpm) / 4) / 1000
 const barWidth = 300
 const tracks = [new Track]
 let isPlaying = false
+let autoStop;
 
 
 // CURSOR
@@ -102,6 +103,7 @@ $('#playBack').click(function() {
         $('#playBack').html('<i class="i fluent:pause-24-filled"></i>')
         tracks[trackSelection].playBack()
     } else {
+        clearTimeout(autoStop)
         stopPlaying()
     }
 })

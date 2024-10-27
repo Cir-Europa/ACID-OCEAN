@@ -89,7 +89,7 @@ class Track {
                 ctx.resume().then(() => {
                     isPlaying = true
                     this.startPlayback();
-                    setTimeout(stopPlaying, (noteLengthMs * 4 * this.bars) + 200)
+                    autoStop = setTimeout(stopPlaying, (sixteenthMs * 4 * this.bars) + 200)
                 });
             } else {
                 this.startPlayback();
@@ -100,7 +100,7 @@ class Track {
     startPlayback() {
         let startTime = ctx.currentTime;
     
-        const playColumn = (index, columnStartTime) => {
+        const playColumn = (index, noteStartTime) => {
 
             if (index >= this.data.length) {
                 if (isExport) {
@@ -109,41 +109,39 @@ class Track {
                 return;
             }
     
-            let columnTimeMs = noteLengthMs;
+            let noteTimeMs = sixteenthMs;
             let progressionCount = 1;
             const column = this.data[index];
+            let accentData = []
     
-            // Handle portamento (legato) across multiple notes
+            // note extend
             for (let i = index + 1; i < this.data.length; i++) {
                 const currentNote = this.data[i];
                 const previousNote = this.data[i - 1];
+                accentData.push(previousNote.isAccent)
     
-                // Break if portamento is followed by different accent or an empty note
+                // Break if the current note is different from the previous note
                 if (currentNote.note === previousNote.note && previousNote.isPortemento) {
-                    if (currentNote.isAccent !== previousNote.isAccent) {
-                        break;
-                    }
-    
-                    columnTimeMs += noteLengthMs;
+                    noteTimeMs += sixteenthMs;
                     progressionCount++;
                 } else {
                     break;
                 }
             }
     
-            let columnTimeS = columnTimeMs / 1000; // Convert to seconds
+            let noteTimeS = noteTimeMs / 1000; // Convert to seconds
     
             // Play the note at the correct time, using AudioContext's time
             if (column.note !== '') {
                 if (column.isPortemento && this.data[index + 1]) {
-                    play(column.note, column.isAccent, columnTimeS, this.data[index + 1].note, 0.2, columnStartTime);
+                    play(column.note, accentData, noteTimeS, this.data[index + 1].note, 0.2, noteStartTime);
                 } else {
-                    play(column.note, column.isAccent, columnTimeS, null, 0, columnStartTime);
+                    play(column.note, accentData, noteTimeS, null, 0, noteStartTime);
                 }
             }
     
             // Schedule the next note based on the AudioContext's time
-            let nextStartTime = columnStartTime + columnTimeS;
+            let nextStartTime = noteStartTime + noteTimeS;
             playColumn(index + progressionCount, nextStartTime); // Schedule next column to play
         };
     
@@ -224,6 +222,8 @@ function initContext() {
     masterVolume.connect(ctx.destination);
 }
 
+// what if note accent was an array of booleans?
+
 function play(noteValue, noteAccent, noteDuration, nextNoteValue, portamentoDuration = 0, startTime = ctx.currentTime) {
 
     const oscillator = ctx.createOscillator();
@@ -243,7 +243,16 @@ function play(noteValue, noteAccent, noteDuration, nextNoteValue, portamentoDura
     const sustainLevel = 0.5;
     const releaseTime = 0.1;
 
-    filter.Q.value = noteAccent ? 10 : 0.1;
+    const sixteenthLength = noteAccent.length / noteDuration
+    let accentTime = startTime;
+
+    for (let i = 0; i < noteAccent.length; i++) {
+        filter.Q.setValueAtTime(noteAccent[i] ? 10 : 0.1, accentTime);
+        accentTime += sixteenthS;
+        console.log(filter.Q.value, noteAccent[i])
+    }    
+
+    //filter.Q.value = noteAccent[0] ? 10 : 0.1;
 
     // Envelope and filter frequency settings based on startTime
     filter.frequency.setValueAtTime(0, startTime);

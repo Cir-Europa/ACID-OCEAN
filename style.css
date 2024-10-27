@@ -124,7 +124,9 @@ body {
     height: 300px;
     width: 100%;
     overflow: scroll;
+    border:1px solid #939393;
 }
+
 .bar {
     width: var(--bar-width);
     height: 400px;
@@ -147,7 +149,12 @@ body {
 .accent {
     background: var(--accent-note) !important;
 }
-.portemento::after {
+.portemento::after,
+.column-0 .Bb.portemento::after, 
+.column-0 .Ab.portemento::after,
+.column-0 .Gb.portemento::after,
+.column-0 .Eb.portemento::after,
+.column-0 .Db.portemento::after {
     content: '∿';
     font-weight: bold;
     position: relative;
@@ -157,7 +164,12 @@ body {
     /*border: 3px solid lightseagreen;*/
 }
 
-.column-0 .portemento::after {
+.column-0 .portemento::after,
+.column-0 .Bb.portemento:hover::after, 
+.column-0 .Ab.portemento:hover::after ,
+.column-0 .Gb.portemento:hover::after ,
+.column-0 .Eb.portemento:hover::after ,
+.column-0 .Db.portemento:hover::after   {
     top: -23px;
 }
 

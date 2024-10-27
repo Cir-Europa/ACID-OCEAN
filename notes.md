@@ -3,8 +3,7 @@
 ## TODO
 
 ### minimum viable product
-- the first column portemento css fix doesn't work for the flats & sharps
-- add accent variation over extended notez
+- make accent glide smoothly (based on attack)
 - fix export volumes
 - URL & LocalStorage 
 - export colours (of some kind)
@@ -12,15 +11,19 @@
 
 
 ### if there's time
+- select tool for dragging & dropping notes (would require reskin of DOM)
 - any length tracks
 - clips
 - Add multiple tracks
 - octave & note selection
 - synth params
 - playhead
+- automatic update detection
 
 ### completed
 - play/ pause
+- the first column portemento css fix doesn't work for the flats & sharps
+- add accent variation over extended notez
 
 - if note select and is portemento, turn into that note (does so with accent & active so kinda inconsisitant)
 
@@ -62,3 +65,14 @@ These are all outdated now
 - rgb(218, 71, 22)
 - rgb(218, 71, 22)
 - rgb(218, 71, 22)
+
+- #9E7940
+- #7DDBEF
+- #B5345B
+- #65C69A
+- #651459
+
+## Random
+
+- how many words can you spell in a hex code?
+    - colour wordle
