@@ -247,7 +247,13 @@ function play(noteValue, noteAccent, noteDuration, nextNoteValue, portamentoDura
     let accentTime = startTime;
 
     for (let i = 0; i < noteAccent.length; i++) {
-        filter.Q.setValueAtTime(noteAccent[i] ? 10 : 0.1, accentTime);
+        if (i === 0) {
+            filter.Q.setValueAtTime(noteAccent[i] ? 10 : 0.1, accentTime);
+        } else {
+            filter.Q.setValueAtTime(noteAccent[i - 1] ? 10 : 0.1, accentTime);
+            filter.Q.linearRampToValueAtTime(noteAccent[i] ? 10 : 0.1, accentTime + attackTime);
+            console.log('hello')
+        }
         accentTime += sixteenthS;
         console.log(filter.Q.value, noteAccent[i])
     }    

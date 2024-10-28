@@ -3,7 +3,6 @@
 ## TODO
 
 ### minimum viable product
-- make accent glide smoothly (based on attack)
 - fix export volumes
 - URL & LocalStorage 
 - export colours (of some kind)
@@ -24,10 +23,12 @@
 - play/ pause
 - the first column portemento css fix doesn't work for the flats & sharps
 - add accent variation over extended notez
+- make accent glide smoothly (based on attack)
 
 - if note select and is portemento, turn into that note (does so with accent & active so kinda inconsisitant)
 
 - What happens to terminating portementos? and when a portemento normal note follows an accent?
+    - half length note
     - the extended note goes from 
     - terminating portmentos could be vibrato
 - What happens to an extended note, which last note is portemento, and the note after that is a different note?
